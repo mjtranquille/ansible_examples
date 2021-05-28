@@ -1,0 +1,4 @@
+---
+# defaults file for nodeexporter
+user: node_exporter
+group: node_exporter

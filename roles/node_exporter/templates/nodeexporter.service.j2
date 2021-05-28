@@ -1,0 +1,11 @@
+Description=Nodeexporter
+After=network.target
+ 
+[Service]
+User={{ user }}
+Group={{ group }}
+Type=simple
+ExecStart=/usr/local/bin/node_exporter
+ 
+[Install]
+WantedBy=multi-user.target

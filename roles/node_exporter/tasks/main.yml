@@ -1,0 +1,46 @@
+---
+# tasks file for nodeexporter
+
+- name: create node exporter group
+  group:
+    name: "{{ group }}"
+    state: present
+    
+- name: create node exporter user
+  user:
+    name: "{{ user }}"
+    group: "{{ group }}"
+
+ 
+- name: Get node exporter package
+  get_url:
+    url: https://github.com/prometheus/node_exporter/releases/download/v1.1.2/node_exporter-1.1.2.linux-amd64.tar.gz
+    dest: /tmp/nodeexporter.tar.gz
+  
+- name: extract nodeexporter
+  unarchive:
+    src: /tmp/nodeexporter.tar.gz
+    dest: /tmp/
+    creates: /tmp/nodeexporter
+    remote_src: yes
+
+- name: copy nodeexport binary
+  copy:
+    src: /tmp/node_exporter-1.1.2.linux-amd64/node_exporter
+    dest: /usr/local/bin/node_exporter
+    remote_src: yes
+    owner: "{{ user }}"
+    group: "{{ group }}"
+    mode: '0755'
+
+- name: create service file
+  template:
+    src: nodeexporter.service.j2
+    dest: /etc/systemd/system/node_exporter.service
+
+- name: ensure service is started
+  systemd:
+    daemon_reload: yes
+    name: node_exporter
+    enabled: yes
+    state: started
