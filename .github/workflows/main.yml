@@ -6,3 +6,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: sudo apt-get install ansible -y
+      - run: sudo ansible-lint roles/prometheus
