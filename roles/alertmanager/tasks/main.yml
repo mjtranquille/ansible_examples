@@ -66,6 +66,7 @@
   copy:
     src: "alertmanager.yml"
     dest: "{{ config_dir }}/alertmanager.yml"
+    mode: 0755
   notify:
     - restart alertmanager
 
