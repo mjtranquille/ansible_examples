@@ -16,4 +16,4 @@ jobs:
           python -m pip install --upgrade pip
           pip install ansible-lint[core]
       - name: lint role
-        run: ansible-lint roles/prometheus
+        run: ansible-lint roles/*
