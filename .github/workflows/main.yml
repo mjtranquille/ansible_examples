@@ -3,14 +3,17 @@ on: [push]
 jobs:
   lint-role:
     runs-on: ubuntu-latest
+    env:
+      PYTHON_VERSION: 3.8
     steps:
       - uses: actions/checkout@v2
       - name: set up python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: ${{ env.PYTHON_VERSION }}
       - name: install dependencies
         run: |
+          sudo apt-get install ansible -y
           python -m pip install --upgrade pip
           pip install ansible-lint
       - name: lint role
